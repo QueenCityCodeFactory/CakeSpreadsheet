@@ -6,7 +6,7 @@ use Cake\Http\ServerRequest;
 EventManager::instance()->on('Controller.initialize', function (Event $event) {
     $controller = $event->getSubject();
     if ($controller->components()->has('RequestHandler')) {
-        $controller->RequestHandler->setConfig('viewClassMap.xlsx', 'CsvView.Spreadsheet');
+        $controller->RequestHandler->setConfig('viewClassMap.xlsx', 'CakeSpreadsheet.Spreadsheet');
     }
 });
 
