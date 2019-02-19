@@ -27,7 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Bake\\": "src"
+            "CakeSpreadsheet\\": "src"
         }
     },
     "autoload-dev": {
