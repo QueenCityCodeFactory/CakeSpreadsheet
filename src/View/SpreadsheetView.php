@@ -147,4 +147,18 @@ class SpreadsheetView extends View
 
         return Inflector::slug(str_replace('.xlsx', '', $this->request->url)) . '.xlsx';
     }
+
+    /**
+     * Get instance of Spreadsheet
+     *
+     * @return \PhpOffice\PhpSpreadsheet\Spreadsheet The Spreadsheet Object
+     */
+    public function getSpreadsheet()
+    {
+        if ($this->Spreadsheet instanceof Spreadsheet) {
+            return $this->Spreadsheet;
+        }
+
+        throw new Exception('Spreadsheet not found');
+    }
 }
