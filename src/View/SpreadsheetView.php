@@ -51,22 +51,19 @@ class SpreadsheetView extends View
         EventManager $eventManager = null,
         array $viewOptions = []
     ) {
-        if (!empty($viewOptions['templatePath']) && $viewOptions['templatePath'] === '/xlsx') {
+        if (!empty($viewOptions['templatePath']) && $viewOptions['templatePath'] == '/xlsx') {
             $this->subDir = null;
         }
 
         parent::__construct($request, $response, $eventManager, $viewOptions);
 
-        if (isset($viewOptions['name']) && $viewOptions['name'] === 'Error') {
+        $this->response = $this->response->withType('xlsx');
+        if (isset($viewOptions['templatePath']) && $viewOptions['templatePath'] == 'Error') {
             $this->subDir = null;
             $this->layoutPath = null;
-            $response = $response->withType('html');
+            $this->response = $this->response->withType('html');
 
             return;
-        }
-
-        if ($response && $response instanceof Response) {
-            $response = $response->withType('xlsx');
         }
 
         $this->Spreadsheet = new Spreadsheet();
