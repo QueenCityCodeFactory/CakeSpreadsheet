@@ -1,6 +1,7 @@
 <?php
-use Cake\Event\EventManager;
+
 use Cake\Event\Event;
+use Cake\Event\EventManager;
 use Cake\Http\ServerRequest;
 
 EventManager::instance()->on('Controller.initialize', function (Event $event) {
@@ -10,11 +11,8 @@ EventManager::instance()->on('Controller.initialize', function (Event $event) {
     }
 });
 
-ServerRequest::addDetector(
-    'xlsx',
-    [
-        'accept' => ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
-        'param' => '_ext',
-        'value' => 'xlsx',
-    ]
-);
+ServerRequest::addDetector('xlsx', [
+    'accept' => ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
+    'param' => '_ext',
+    'value' => 'xlsx',
+]);

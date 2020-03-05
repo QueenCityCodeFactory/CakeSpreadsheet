@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 namespace CakeSpreadsheet\View;
 
 use Cake\Core\Exception\Exception;
 use Cake\Event\EventManager;
-use Cake\Http\ServerRequest;
 use Cake\Http\Response;
+use Cake\Http\ServerRequest;
 use Cake\Utility\Text;
 use Cake\View\View;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -33,22 +35,23 @@ class SpreadsheetView extends View
     /**
      * Spreadsheet instance
      *
-     * @var Spreadsheet
+     * @var \PhpOffice\PhpSpreadsheet\Spreadsheet
      */
     public $Spreadsheet = null;
 
     /**
      * Constructor
      *
-     * @param \Cake\Http\ServerRequest $request Request instance.
-     * @param \Cake\Http\Response $response Response instance.
-     * @param \Cake\Event\EventManager $eventManager EventManager instance.
-     * @param array $viewOptions An array of view options
+     * @param \Cake\Http\ServerRequest|null $request Request instance.
+     * @param \Cake\Http\Response|null $response Response instance.
+     * @param \Cake\Event\EventManager|null $eventManager Event manager instance.
+     * @param array $viewOptions View options. See View::$_passedVars for list of
+     *   options which get set as class properties.
      */
     public function __construct(
-        ServerRequest $request = null,
-        Response $response = null,
-        EventManager $eventManager = null,
+        ?ServerRequest $request = null,
+        ?Response $response = null,
+        ?EventManager $eventManager = null,
         array $viewOptions = []
     ) {
         if (!empty($viewOptions['templatePath']) && $viewOptions['templatePath'] == '/xlsx') {
@@ -80,22 +83,22 @@ class SpreadsheetView extends View
      * - `beforeLayout`
      * - `afterLayout`
      *
-     * If View::$autoRender is false and no `$layout` is provided, the template will be returned bare.
+     * If View::$autoLayout is set to `false`, the template will be returned bare.
      *
      * Template and layout names can point to plugin templates/layouts. Using the `Plugin.template` syntax
      * a plugin template/layout can be used instead of the app ones. If the chosen plugin is not found
      * the template will be located along the regular view path cascade.
      *
-     * @param string|false|null $view Name of view file to use
-     * @param string|null $layout Layout to use.
-     * @return string|null Rendered content or null if content already rendered and returned earlier.
+     * @param string|null $template Name of template file to use
+     * @param string|false|null $layout Layout to use. False to disable.
+     * @return string Rendered content.
      * @throws \Cake\Core\Exception\Exception If there is an error in the view.
-     * @triggers View.beforeRender $this, [$viewFileName]
-     * @triggers View.afterRender $this, [$viewFileName]
+     * @triggers View.beforeRender $this, [$templateFileName]
+     * @triggers View.afterRender $this, [$templateFileName]
      */
-    public function render($view = null, $layout = null)
+    public function render(?string $template = null, $layout = null): string
     {
-        $content = parent::render($view, $layout);
+        $content = parent::render($template, $layout);
         if ($this->response->getType() === 'text/html') {
             return $content;
         }
@@ -110,9 +113,9 @@ class SpreadsheetView extends View
      * Generates the binary excel data
      *
      * @return string
-     * @throws CakeException If the excel writer does not exist
+     * @throws \Cake\Core\Exception\Exception If the excel writer does not exist
      */
-    protected function output()
+    protected function output(): string
     {
         ob_start();
 
@@ -136,7 +139,7 @@ class SpreadsheetView extends View
      *
      * @return string filename
      */
-    public function getFilename()
+    public function getFilename(): string
     {
         if (isset($this->viewVars['_filename'])) {
             return $this->viewVars['_filename'] . '.xlsx';
@@ -149,8 +152,9 @@ class SpreadsheetView extends View
      * Get instance of Spreadsheet
      *
      * @return \PhpOffice\PhpSpreadsheet\Spreadsheet The Spreadsheet Object
+     * @throws \Cake\Core\Exception\Exception If the excel writer does not exist
      */
-    public function getSpreadsheet()
+    public function getSpreadsheet(): Spreadsheet
     {
         if ($this->Spreadsheet instanceof Spreadsheet) {
             return $this->Spreadsheet;
