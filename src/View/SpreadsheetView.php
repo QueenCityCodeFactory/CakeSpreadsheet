@@ -3,9 +3,9 @@ namespace CakeSpreadsheet\View;
 
 use Cake\Core\Exception\Exception;
 use Cake\Event\EventManager;
-use Cake\Http\ServerRequest;
 use Cake\Http\Response;
-use Cake\Utility\Text;
+use Cake\Http\ServerRequest;
+use Cake\Utility\Inflector;
 use Cake\View\View;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -52,16 +52,16 @@ class SpreadsheetView extends View
         array $viewOptions = []
     ) {
         if (!empty($viewOptions['templatePath']) && $viewOptions['templatePath'] == '/xlsx') {
-            $this->subDir = null;
+            $this->setSubDir(null);
         }
 
         parent::__construct($request, $response, $eventManager, $viewOptions);
 
-        $this->response = $this->response->withType('xlsx');
+        $this->setResponse($this->getResponse()->withType('xlsx'));
         if (isset($viewOptions['templatePath']) && $viewOptions['templatePath'] == 'Error') {
-            $this->subDir = null;
-            $this->layoutPath = null;
-            $this->response = $this->response->withType('html');
+            $this->setSubDir(null);
+            $this->setLayoutPath(null);
+            $this->setResponse($this->getResponse()->withType('html'));
 
             return;
         }
@@ -96,12 +96,12 @@ class SpreadsheetView extends View
     public function render($view = null, $layout = null)
     {
         $content = parent::render($view, $layout);
-        if ($this->response->getType() === 'text/html') {
+        if ($this->getResponse()->getType() === 'text/html') {
             return $content;
         }
 
         $this->Blocks->set('content', $this->output());
-        $this->response = $this->response->withDownload($this->getFilename());
+        $this->setResponse($this->getResponse()->withDownload($this->getFilename()));
 
         return $this->Blocks->get('content');
     }
@@ -142,7 +142,7 @@ class SpreadsheetView extends View
             return $this->viewVars['_filename'] . '.xlsx';
         }
 
-        return Text::slug(str_replace('.xlsx', '', $this->request->getPath())) . '.xlsx';
+        return Inflector::slug(str_replace('.xlsx', '', $this->getRequest()->url)) . '.xlsx';
     }
 
     /**

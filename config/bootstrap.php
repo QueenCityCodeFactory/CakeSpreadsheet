@@ -1,6 +1,6 @@
 <?php
-use Cake\Event\EventManager;
 use Cake\Event\Event;
+use Cake\Event\EventManager;
 use Cake\Http\ServerRequest;
 
 EventManager::instance()->on('Controller.initialize', function (Event $event) {
