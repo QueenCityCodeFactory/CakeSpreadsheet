@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace CakeSpreadsheet\View;
 
-use Cake\Core\Exception\Exception;
+use Cake\Core\Exception\CakeException;
 use Cake\Event\EventManager;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
@@ -92,7 +92,7 @@ class SpreadsheetView extends View
      * @param string|null $template Name of template file to use
      * @param string|false|null $layout Layout to use. False to disable.
      * @return string Rendered content.
-     * @throws \Cake\Core\Exception\Exception If there is an error in the view.
+     * @throws \Cake\Core\Exception\CakeException If there is an error in the view.
      * @triggers View.beforeRender $this, [$templateFileName]
      * @triggers View.afterRender $this, [$templateFileName]
      */
@@ -113,7 +113,7 @@ class SpreadsheetView extends View
      * Generates the binary excel data
      *
      * @return string
-     * @throws \Cake\Core\Exception\Exception If the excel writer does not exist
+     * @throws \Cake\Core\Exception\CakeException If the excel writer does not exist
      */
     protected function output(): string
     {
@@ -122,7 +122,7 @@ class SpreadsheetView extends View
         $writer = IOFactory::createWriter($this->Spreadsheet, 'Xlsx');
 
         if (!isset($writer)) {
-            throw new Exception('Excel writer not found');
+            throw new CakeException('Excel writer not found');
         }
 
         $writer->setPreCalculateFormulas(false);
@@ -152,7 +152,7 @@ class SpreadsheetView extends View
      * Get instance of Spreadsheet
      *
      * @return \PhpOffice\PhpSpreadsheet\Spreadsheet The Spreadsheet Object
-     * @throws \Cake\Core\Exception\Exception If the excel writer does not exist
+     * @throws \Cake\Core\Exception\CakeException If the excel writer does not exist
      */
     public function getSpreadsheet(): Spreadsheet
     {
@@ -160,6 +160,6 @@ class SpreadsheetView extends View
             return $this->Spreadsheet;
         }
 
-        throw new Exception('Spreadsheet not found');
+        throw new CakeException('Spreadsheet not found');
     }
 }
