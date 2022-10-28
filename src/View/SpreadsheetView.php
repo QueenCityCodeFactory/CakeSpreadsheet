@@ -5,7 +5,7 @@ use Cake\Core\Exception\Exception;
 use Cake\Event\EventManager;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
-use Cake\Utility\Inflector;
+use Cake\Utility\Text;
 use Cake\View\View;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -142,7 +142,7 @@ class SpreadsheetView extends View
             return $this->viewVars['_filename'] . '.xlsx';
         }
 
-        return Inflector::slug(str_replace('.xlsx', '', $this->getRequest()->url)) . '.xlsx';
+        return Text::slug(str_replace('.xlsx', '', $this->getRequest()->getPath())) . '.xlsx';
     }
 
     /**
