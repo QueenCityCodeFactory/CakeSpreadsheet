@@ -3,8 +3,8 @@ CakeSpreadsheet is a CakePHP 4.x plugin for generating Excel Files in the xlsx f
 
 ## Requirements
 
-* CakePHP 4.x
-* PHP 7.2
+* CakePHP 5.x
+* PHP 8.1
 
 ## Installation
 
