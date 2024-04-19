@@ -22,7 +22,7 @@ class SpreadsheetView extends View
      *
      * @var string
      */
-    public $layoutPath = 'xlsx';
+    public string $layoutPath = 'xlsx';
 
     /**
      * Excel views are always located in the 'xlsx' sub directory for a
@@ -30,14 +30,14 @@ class SpreadsheetView extends View
      *
      * @var string
      */
-    public $subDir = 'xlsx';
+    public string $subDir = 'xlsx';
 
     /**
      * Spreadsheet instance
      *
      * @var \PhpOffice\PhpSpreadsheet\Spreadsheet
      */
-    public $Spreadsheet = null;
+    public Spreadsheet $Spreadsheet;
 
     /**
      * Constructor
