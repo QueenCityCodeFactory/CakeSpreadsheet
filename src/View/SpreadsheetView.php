@@ -40,6 +40,16 @@ class SpreadsheetView extends View
     public Spreadsheet $Spreadsheet;
 
     /**
+     * Content Type
+     *
+     * @return string Content type.
+     */
+    public static function contentType(): string
+    {
+        return 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    }
+
+    /**
      * Constructor
      *
      * @param \Cake\Http\ServerRequest|null $request Request instance.

@@ -1,5 +1,5 @@
 # CakeSpreadsheet
-CakeSpreadsheet is a CakePHP 4.x plugin for generating Excel Files in the xlsx format using PHPOffice/PhpSpreadsheet.
+CakeSpreadsheet is a CakePHP 5.x plugin for generating Excel Files in the xlsx format using PHPOffice/PhpSpreadsheet.
 
 ## Requirements
 
