@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: ['cake-5.x', 'main']
+  pull_request:
+    branches: ['cake-5.x', 'main']
+
+permissions:
+  contents: read
+
+jobs:
+  testsuite:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.2', '8.3', '8.4']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, intl, gd, zip, xml
+          coverage: none
+
+      - name: Composer install
+        run: |
+          composer update --no-interaction --prefer-dist
+
+      - name: Run PHPUnit
+        run: |
+          vendor/bin/phpunit
+
+  cs-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, intl
+          coverage: none
+
+      - name: Composer install
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run phpcs
+        run: vendor/bin/phpcs --colors -p src/ tests/
+
+  stan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, intl
+          coverage: none
+
+      - name: Composer install
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run phpstan
+        run: vendor/bin/phpstan analyse

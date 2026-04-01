@@ -65,15 +65,15 @@ class SpreadsheetView extends View
         array $viewOptions = []
     ) {
         if (!empty($viewOptions['templatePath']) && $viewOptions['templatePath'] == '/xlsx') {
-            $this->subDir = null;
+            $this->subDir = '';
         }
 
         parent::__construct($request, $response, $eventManager, $viewOptions);
 
         $this->response = $this->response->withType('xlsx');
         if (isset($viewOptions['templatePath']) && $viewOptions['templatePath'] == 'Error') {
-            $this->subDir = null;
-            $this->layoutPath = null;
+            $this->subDir = '';
+            $this->layoutPath = '';
             $this->response = $this->response->withType('html');
 
             return;
@@ -139,7 +139,7 @@ class SpreadsheetView extends View
         $writer->setIncludeCharts(true);
         $writer->save('php://output');
 
-        $output = ob_get_clean();
+        $output = (string)ob_get_clean();
 
         return $output;
     }

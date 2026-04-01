@@ -14,7 +14,7 @@ class CakeSpreadsheetPlugin extends BasePlugin
      *
      * @var string
      */
-    protected ?string $name = 'SpreadsheetView';
+    protected ?string $name = 'CakeSpreadsheet';
 
     /**
      * Load routes or not
@@ -36,10 +36,10 @@ class CakeSpreadsheetPlugin extends BasePlugin
     public function bootstrap(PluginApplicationInterface $app): void
     {
         /**
-         * Add a request detector named "csv" to check whether the request was for a CSV,
+         * Add a request detector named "xlsx" to check whether the request was for a spreadsheet,
          * either through accept header or file extension
          *
-         * @link https://book.cakephp.org/4/en/controllers/request-response.html#checking-request-conditions
+         * @link https://book.cakephp.org/5/en/controllers/request-response.html#checking-request-conditions
          */
         ServerRequest::addDetector(
             'xlsx',

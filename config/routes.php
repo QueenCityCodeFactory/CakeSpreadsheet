@@ -1,5 +1,11 @@
 <?php
+declare(strict_types=1);
 
-use Cake\Routing\Router;
-
-Router::extensions('xlsx');
+/**
+ * In CakePHP 5, routing extensions should be set via RouteBuilder in your
+ * application's routes.php:
+ *
+ * ```
+ * $routes->setExtensions(['xlsx']);
+ * ```
+ */
